@@ -1,36 +1,38 @@
 'use strict';
 
-function DomElement(selector, height, width, bg, fontSize) {
-  this.selector = selector;
-  this.height = height;
-  this.width = width;
-  this.bg = bg;
-  this.fontSize = fontSize;
-  this.text = function() {
-    return prompt('Введите текст', 'Новый блок');
-  };
-  this.createBlock = function() {
-    let newElem;
+let position = {
+  top: 0,
+  left: 0,
+};
 
-    if ( this.selector[0] === '.' ) {
-      newElem = document.createElement('div');
-      newElem.className = `${this.selector.slice(1)}`;
-    }
+let newElem = document.createElement('div');
+newElem.style.cssText = `position: absolute; width: 100px; height: 100px; background-color: red; display: flex; align-items: center; justify-content: center;`;
+document.body.style.cssText = `margin: 0; overflow: hidden`;
+document.body.append(newElem);
 
-    if ( this.selector[0] === '#' ) {
-      newElem = document.createElement('p');
-      newElem.id = `${this.selector.slice(1)}`;
-    }
+function move(event) {
 
-      
-    newElem.textContent = this.text();
-    newElem.style.cssText = `width: ${this.width}; height: ${this.height}; background-color: ${this.bg}; font-size: ${this.fontSize}; display: flex; align-items: center; justify-content: center; margin: 15px;`;
-    document.body.append(newElem);
-  };
+  if (event.key === 'ArrowRight' && position.left + newElem.offsetWidth < window.innerWidth) {
+    position.left += 10;
+  }
+
+  if (event.key === 'ArrowLeft' && position.left > 0) {
+    position.left -= 10;
+  }
+
+  if (event.key === 'ArrowUp' && position.top > 0) {
+    position.top -= 10;
+  }
+
+  if (event.key === 'ArrowDown' && position.top + newElem.offsetHeight < window.innerHeight) {
+    position.top += 10;
+  }
+  
+  return position;
 }
 
-const newBlock = new DomElement("#block", "100px", "150px", "red", "18px");
-const newBlock2 = new DomElement(".block", "200px", "250px", "green", "16px");
-
-newBlock.createBlock();
-newBlock2.createBlock();
+document.addEventListener('keydown', function(event) {
+  move(event);
+  newElem.style.top = position.top + "px";
+  newElem.style.left = position.left + "px";
+});
