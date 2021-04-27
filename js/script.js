@@ -13,6 +13,31 @@ const debounce = (callback, time) => {
     };
 };
 
+
+const animate = ({timing, draw, duration}) => {
+
+    let start = performance.now();
+  
+    requestAnimationFrame(function animate(time) {
+      // timeFraction изменяется от 0 до 1
+      let timeFraction = (time - start) / duration;
+      
+      if (timeFraction > 1) {
+        timeFraction = 1;
+      }
+  
+      // вычисление текущего состояния анимации
+      let progress = timing(timeFraction);
+  
+      draw(progress); // отрисовать её
+  
+      if (timeFraction < 1) {
+        requestAnimationFrame(animate);
+      }
+  
+    });
+  };
+
 class Todo {
     constructor(form, input, todoList, todoCompleted) {
         this.form = document.querySelector(form);
@@ -37,6 +62,7 @@ class Todo {
     createItem(todo) {
         const li = document.createElement('li');
         li.classList.add('todo-item');
+        li.style.cssText = `transform: translateY(0)`;
         li.key = todo.key;
         li.insertAdjacentHTML('beforeend', `
             <span class="text-todo">${todo.value}</span>
@@ -47,8 +73,27 @@ class Todo {
             </div>`);
       
         if (todo.completed) {
+            animate({
+                duration: 300,
+                timing(timeFraction) {
+                  return timeFraction;
+                },
+                draw(progress) {
+                  li.style.cssText = `transform: translateY(${(progress - 1) * 100}%)`;
+                } 
+              });
             this.todoCompleted.append(li);
         } else {
+            animate({
+                duration: 300,
+                timing(timeFraction) {
+                  return timeFraction;
+                },
+                draw(progress) {
+                  li.style.cssText = `transform: translateY(${(1 - progress) * 100}%)`;
+                }
+              });
+
             this.todoList.append(li);
         }
     }
@@ -103,6 +148,7 @@ class Todo {
         this.todoData.forEach(elem => {
             if (elem.key === key) {
                 elem.completed = !elem.completed;
+
             }
         });
         this.render();
@@ -120,8 +166,9 @@ class Todo {
 
             if (deleteItem) {
                 this.deleteItem(todoItem.key);
+                todoItem.classList.add('chek');
             }
-            
+
             if (completeItem) {
                 this.completedItem(todoItem.key);
             }
