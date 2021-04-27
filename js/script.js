@@ -1,5 +1,18 @@
 'use strict';
 
+const debounce = (callback, time) => {
+    let lastCall = 0;
+    let lastCallTimer = 0;
+    return (...args) => {
+      const prevCall = lastCall;
+      lastCall = Date.now();
+      if (prevCall && ((lastCall - prevCall) < time)) {
+        clearInterval(lastCallTimer);
+      }
+      lastCallTimer = setTimeout(() => callback(...args), time);
+    };
+};
+
 class Todo {
     constructor(form, input, todoList, todoCompleted) {
         this.form = document.querySelector(form);
@@ -28,10 +41,11 @@ class Todo {
         li.insertAdjacentHTML('beforeend', `
             <span class="text-todo">${todo.value}</span>
             <div class="todo-buttons">
+                <button class="todo-edit"></button>
                 <button class="todo-remove"></button>
                 <button class="todo-complete"></button>
             </div>`);
-
+      
         if (todo.completed) {
             this.todoCompleted.append(li);
         } else {
@@ -41,7 +55,6 @@ class Todo {
 
     addTodo(event) {
         event.preventDefault();
-        
         if (this.input.value.trim()) {
             const newTodo = {
                 value: this.input.value,
@@ -52,7 +65,8 @@ class Todo {
             this.render();
             this.input.value = '';
         } else {
-            alert('Добавьте дело в список');
+            this.input.value = '';
+            alert('пустое дело добавить нельзя!');
         }
     }
 
@@ -64,6 +78,24 @@ class Todo {
     deleteItem(key) {
         this.todoData.delete(key);
         this.render();
+    }
+
+    // изменяем элемент списка
+    editItem(li) {
+        li.setAttribute("contenteditable", true);
+
+        this.todoData.forEach(elem => {
+            const printText = (elem, event) => {
+                elem.value = event.target.innerText;
+                this.addToStorage();
+            };
+
+            const showTextDebounce = debounce(printText, 300);
+
+            if (elem.key === li.key) {
+                li.addEventListener('input', event => showTextDebounce(elem, event));
+            }
+        });
     }
 
     // перебрать forEach todoData и найти элемент с ключем на который мы кликнули и поменять значение complete
@@ -79,20 +111,24 @@ class Todo {
     // метод который определяет на какую кнопку кликнули (корзиза или галочка) и вызвать один из методов delete/complete
     handler() {
         const todoContainer = document.querySelector('.todo-container');
-
+        
         todoContainer.onclick = event => {
+            const editItem = event.target.closest('.todo-edit');
             const deleteItem = event.target.closest('.todo-remove');
             const completeItem = event.target.closest('.todo-complete');
             const todoItem = event.target.closest('.todo-item');
 
             if (deleteItem) {
-                this.deleteItem(todoItem.key);
+                this.deleteItem(todoItem.key, todoItem);
             }
             
             if (completeItem) {
-                this.completedItem(todoItem.key);
+                this.completedItem(todoItem.key, todoItem);
             }
 
+            if (editItem) {
+                this.editItem(todoItem);
+            }
         };
     }
 
