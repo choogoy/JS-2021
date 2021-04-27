@@ -119,11 +119,11 @@ class Todo {
             const todoItem = event.target.closest('.todo-item');
 
             if (deleteItem) {
-                this.deleteItem(todoItem.key, todoItem);
+                this.deleteItem(todoItem.key);
             }
             
             if (completeItem) {
-                this.completedItem(todoItem.key, todoItem);
+                this.completedItem(todoItem.key);
             }
 
             if (editItem) {
