@@ -1,0 +1,61 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+html {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: sans-serif;
+  font-size: 20px;
+  margin: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+input, select, button {
+  outline: transparent;
+}
+
+select {
+  cursor: pointer;
+}
+
+.exchange-block {
+  margin-top: 50px;
+  width: 500px;
+  border: 1px solid rosybrown;
+  border-radius: 20px;
+  padding: 30px;
+  background-color: antiquewhite;
+}
+
+.input-wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.input {
+  display: flex;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid rosybrown;
+}
+
+#result {
+  background-color: white;
+}
+
+#convert {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid rosybrown;
+  cursor: pointer;
+  &:hover {
+    background-color: white;
+  }
+}

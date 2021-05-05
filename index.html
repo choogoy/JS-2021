@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson 29 Hard task</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+
+<div class="exchange-block">
+  <form class="convert-form">
+    <div class="input-group">
+      <div class="input-wrapper">
+        <select class="input" id="sel1" name="input-currency">
+          <option value="RUB">Российский рубль (RUB)</option>
+          <option value="EUR">Евро (EUR)</option>
+          <option value="USD">Доллар США (USD)</option>
+        </select>
+        <input class="input" type="text" id="input" name="input-value" placeholder="Введите сумму" required>
+      </div>
+      <div class="input-wrapper">
+        <select class="input" id="sel2" name="output-currency">
+          <option value="USD">Доллар США (USD)</option>
+          <option value="EUR">Евро (EUR)</option>
+          <option value="RUB">Российский рубль (RUB)</option>
+        </select>
+        <input class="input" type="text" id="result" placeholder="Результат" disabled>
+      </div>
+    </div>
+    <button type="submit" id="convert">Конвертировать</button>
+  </form>
+</div>
+
+</body>
+</html>
