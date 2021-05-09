@@ -339,7 +339,6 @@ const startList = () => {
 
 // формирует верстку списка городов при поисковом запросе
 const searchCity = value => {
-
     const allCities = [];
     dropdownListAutocomplete.firstElementChild.insertAdjacentElement('afterbegin', loadSpinner());
     getList('RU', DB_URL)
@@ -358,7 +357,7 @@ const searchCity = value => {
             if (filtered.length) {
                 let filteredCities = '';
                 filtered.forEach(({ name, link, count }) => {
-                    filteredCities += cityHighlightning(name, link, count, value);
+                    filteredCities += cityHighlightning(name, link, count, value.toLowerCase());
                 });
                 dropdownListAutocomplete.firstElementChild.insertAdjacentHTML('afterbegin', filteredCities);
             } else {
