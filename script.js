@@ -255,8 +255,16 @@ const showCityList = selectCountry => {
     getList('RU', DB_URL)
         .then(data => {
             dropdownListSelect.firstElementChild.textContent = '';
+            animate({
+                duration: 500,
+                timing(timeFraction) {
+                    return timeFraction;
+                },
+                draw(progress) {
+                    dropdownListSelect.style.transform = `translateX(${(1 - progress) * 100}%)`;
+                }
+            });
             data.forEach(item => {
-
                 const { country, count, cities } = item;
 
                 if (country === selectCountry) {
@@ -288,17 +296,6 @@ const startList = () => {
     closeLists();
 
     dropdownListDefault.style.transform = 'traslateX(-100%)';
-
-    animate({
-        duration: 500,
-        timing(timeFraction) {
-            return timeFraction;
-        },
-        draw(progress) {
-            dropdownListDefault.style.transform = `translateX(-${(1 - progress) * 100}%)`;
-        }
-    });
-
     openList('.dropdown-lists__list--default');
     dropdownListDefault.firstElementChild.textContent = '';
     dropdownListDefault.firstElementChild.insertAdjacentElement('afterbegin', loadSpinner());
@@ -308,6 +305,15 @@ const startList = () => {
     getList('RU', DB_URL)
         .then(data => {
             dropdownListDefault.firstElementChild.textContent = '';
+            animate({
+                duration: 500,
+                timing(timeFraction) {
+                    return timeFraction;
+                },
+                draw(progress) {
+                    dropdownListDefault.style.transform = `translateX(-${(1 - progress) * 100}%)`;
+                }
+            });
             data.forEach(({ country, count, cities }) => {
                 let cityBlock = '';
                 const coutryBlock = document.createElement('div');
@@ -383,15 +389,6 @@ main.onclick = event => {
             dropdownListSelect.style.transform = 'traslateX(100%)';
             document.querySelector('.dropdown-lists').style.overflow = 'hidden';
             // иначе выводим общий список городов по стране
-            animate({
-                duration: 500,
-                timing(timeFraction) {
-                    return timeFraction;
-                },
-                draw(progress) {
-                    dropdownListSelect.style.transform = `translateX(${(1 - progress) * 100}%)`;
-                }
-            });
             const country = line.children[0].textContent;
             dropdownListSelect.firstElementChild.textContent = '';
             closeLists();
