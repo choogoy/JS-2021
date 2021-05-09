@@ -18,6 +18,76 @@ button.setAttribute("disabled", "disabled");
 const closeLists = () => dropdownLists.forEach(list => list.style.display = 'none'); //скрывает все листы
 const openList = selector => document.querySelector(selector).style.display = 'block'; //открывает выбранный лист
 
+// записываем куку
+const setCookie = (name, value, options = {}) => {
+
+    options = {
+      path: '/',
+      // при необходимости добавьте другие значения по умолчанию
+      ...options
+    };
+  
+    if (options.expires instanceof Date) {
+      options.expires = options.expires.toUTCString();
+    }
+  
+    let updatedCookie = encodeURIComponent(name) + "=" + encodeURIComponent(value);
+  
+    for (let optionKey in options) {
+      updatedCookie += "; " + optionKey;
+      let optionValue = options[optionKey];
+      if (optionValue !== true) {
+        updatedCookie += "=" + optionValue;
+      }
+    }
+  
+    document.cookie = updatedCookie;
+};
+
+// считываем куку
+const getCookie = name => {
+    let matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+};
+
+// считываем localStorage
+const getStorage = local => {
+    const getData = JSON.parse(localStorage.getItem(local)) || [];
+    return getData;
+};
+
+// записываем в localStorage
+const setStorage = (local, data) => localStorage.setItem(local, JSON.stringify(data));
+
+const question = () => prompt('Введите локаль (RU, EN или DE)', 'RU');
+
+const start = () => {
+
+    let local = '';
+
+    if (!getCookie('local')) {
+        console.log('куки нет');
+        local = question();
+        setCookie('local', local);
+    } else {
+        console.log('кука есть');
+        local = getCookie('local');
+    }
+
+    return local;
+
+};
+
+const countries = {
+    'RU': 'Россия',
+    'DE': 'Deutschland',
+    'EN': 'United Kingdom',
+};
+
+const local = start(); // получаем локаль
+
 // анимация
 const animate = ({ timing, draw, duration }) => {
 
@@ -213,7 +283,22 @@ const getData = async url => {
 };
 
 // возвращает промис с данными из базы по заданному языку
-const getList = (language, url) => getData(url).then(response => response[language]);
+const getList = (language, url) => {
+
+    if (getStorage(language).length) {
+        return new Promise(resolve => {
+            if (getStorage(language).length) {
+                resolve(getStorage(language));
+            }
+        }).then(getStorage(language));
+    } else {
+        return getData(url).then(response => {
+            setStorage(language, response[language]);
+            return response[language];
+        });
+    }
+
+};
 
 // возвращает верстку города
 const createCity = (name, link, count) => {
@@ -252,7 +337,7 @@ const cityHighlightning = (name, link, count, value) => {
 // формирует верстку списка городов по выбранной стране
 const showCityList = selectCountry => {
     dropdownListSelect.firstElementChild.insertAdjacentElement('afterbegin', loadSpinner());
-    getList('RU', DB_URL)
+    getList(local, DB_URL)
         .then(data => {
             dropdownListSelect.firstElementChild.textContent = '';
             animate({
@@ -302,7 +387,25 @@ const startList = () => {
     button.setAttribute("disabled", "disabled");
     button.setAttribute("target", "_blank");
 
-    getList('RU', DB_URL)
+    getList(local, DB_URL)
+        .then(response => {
+
+            let array = [];
+            let i = 1;
+
+            response.forEach(item => {
+                const { country } = item;
+
+                if (country === countries[local]) {
+                    array[0] = item;
+                } else {
+                    array[i] = item;
+                    i++;
+                }
+            });
+
+            return array;
+        })
         .then(data => {
             dropdownListDefault.firstElementChild.textContent = '';
             animate({
@@ -332,7 +435,7 @@ const startList = () => {
                     </div>
                     ${cityBlock}`);
 
-                dropdownListDefault.firstElementChild.insertAdjacentElement('afterbegin', coutryBlock);
+                dropdownListDefault.firstElementChild.insertAdjacentElement('beforeend', coutryBlock);
             });
         });
 };
@@ -341,7 +444,7 @@ const startList = () => {
 const searchCity = value => {
     const allCities = [];
     dropdownListAutocomplete.firstElementChild.insertAdjacentElement('afterbegin', loadSpinner());
-    getList('RU', DB_URL)
+    getList(local, DB_URL)
         .then(response => {
             dropdownListAutocomplete.firstElementChild.textContent = '';
             response.forEach(({ cities }) => allCities.push(...cities));
