@@ -120,7 +120,7 @@ select {
     }
     &-img {
         display: flex;
-        width: 280px;
+        max-width: 280px;
         margin: 0 auto;
         position: relative;
         & img {
@@ -175,10 +175,20 @@ select {
 
 @media(max-width: 640px) {
 
+    .container {
+        padding: 0 5px;
+    }
+
     .header-top {
         justify-content: flex-end;
     }
 
+    .card {
+        margin: 10px 0;
+        & img {
+            max-width: 100%;
+        }
+    }
 }
 
 @media(max-width: 500px) {

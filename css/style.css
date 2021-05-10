@@ -145,7 +145,7 @@ select {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  width: 280px;
+  max-width: 280px;
   margin: 0 auto;
   position: relative;
 }
@@ -206,10 +206,19 @@ select {
 }
 
 @media (max-width: 640px) {
+  .container {
+    padding: 0 5px;
+  }
   .header-top {
     -webkit-box-pack: end;
         -ms-flex-pack: end;
             justify-content: flex-end;
+  }
+  .card {
+    margin: 10px 0;
+  }
+  .card img {
+    max-width: 100%;
   }
 }
 
