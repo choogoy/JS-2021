@@ -1,0 +1,145 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html, body {
+    box-sizing: inherit;
+	height: 100%;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  line-height: 27px;
+  overflow-x: hidden;
+}
+
+p {
+    margin: 0;
+}
+
+.container {
+    max-width: 1050px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    & div {
+        padding: 10px 0;
+    }
+}
+
+.search {
+    width: 30%;
+    height: 40px;
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: 1px solid rgb(196, 207, 214);
+    outline: transparent;
+}
+
+.search-text {
+    padding: 10px;
+    font-weight: 600;
+}
+
+select {
+    padding: 10px 20px;
+    border-radius: 20px;
+    height: 40px;
+    border: 1px solid rgb(196, 207, 214);
+    outline: transparent;
+}
+
+.content {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px 0 40px;
+}
+
+.card {
+    width: 320px;
+    border: 1px solid rgb(196, 207, 214);
+    padding: 20px;
+    margin: 10px;
+    color: rgb(196, 207, 214);
+    transition: all 0.5s;
+    border-radius: 20px;
+    &:hover {
+        background-color: rgba(196, 207, 214, 0.1);
+        border: 1px solid rgba(196, 207, 214, 0.1);
+        color: rgba(0, 0, 0, 0.4);
+        box-shadow: 3px 1px 10px 0px rgb(196, 207, 214);
+        cursor: pointer;
+        & span {
+            transition: all 0.5s;
+            color: rgba(0, 0, 0, 0.8);
+        }
+        & .card-img img {
+            transform: scale(1.05);
+            border-radius: 10px;
+        }
+    }
+    &-img {
+        display: flex;
+        width: 280px;
+        margin: 0 auto;
+        margin-bottom: 15px;
+        & img {
+            transition: all 0.5s;
+            width: 280px;
+            height: 400px;
+            object-fit: cover;
+        }
+    }
+    & p span {
+        transition: all 0.5s;
+        color: black;
+    }
+}
+
+@media(max-width: 1160px) {
+    .container {
+        max-width: 710px;
+    }
+
+    .search {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .content {
+        padding-top: 40px;
+    }
+}
+
+@media(max-width: 740px) {
+    .content {
+        justify-content: center;
+    }
+}
+
+@media(max-width: 640px) {
+
+    .header-top {
+        justify-content: flex-end;
+    }
+
+}
+
+@media(max-width: 500px) {
+
+    .header-top {
+        & div, select {
+            width: 100%;
+        }
+    }
+
+}

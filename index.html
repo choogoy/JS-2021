@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marvel</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/main.js" defer></script>
+</head>
+<body>
+    
+
+    <header class="header">
+
+        <div class="container">
+
+            <div class="header-top">
+
+                <div>
+                    <span>Сортировать по: </span>
+                    <select name="" id="filter">
+                        <option value="">Выберите фильтр</option>
+                        <option value="name">name</option>
+                        <option value="realName">realName</option>
+                        <option value="species">species</option>
+                        <option value="citizenship">citizenship</option>
+                        <option value="actors">actors</option>
+                        <option value="gender">gender</option>
+                        <option value="movies">movies</option>
+                        <option value="birthDay">birthDay</option>
+                        <option value="deathDay">deathDay</option>
+                        <option value="status">status</option>
+                    </select>
+                </div>
+            
+                <div>
+                    <select name="movies" id="movies">
+                        <option value="">Выберите фильм</option>
+                    </select>
+                </div>
+            
+                <input class="search" type="text" placeholder="Что ищем?">
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+<div class="container">
+    <p class="search-text"></p>
+    <div class="content">
+    </div>
+</div>
+
+
+</body>
+</html>
