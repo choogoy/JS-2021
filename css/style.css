@@ -16,6 +16,7 @@ body {
   font-size: 15px;
   line-height: 27px;
   overflow-x: hidden;
+  margin: 0;
 }
 
 p {
@@ -28,7 +29,19 @@ p {
   padding: 0 15px;
 }
 
+.content-wrapper .bg {
+  position: fixed;
+  z-index: -1;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+.header {
+  z-index: 11;
+}
+
 .header-top {
+  padding-top: 50px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -40,10 +53,20 @@ p {
           align-items: center;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
+  color: #fff;
 }
 
 .header-top div {
   padding: 10px 0;
+}
+
+.title {
+  height: 300px;
+  max-width: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+  margin-top: 20px;
+  margin-bottom: -40px;
 }
 
 .search {
@@ -58,6 +81,7 @@ p {
 .search-text {
   padding: 10px;
   font-weight: 600;
+  color: #fff;
 }
 
 select {
@@ -74,7 +98,7 @@ select {
   display: flex;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
-  padding: 20px 0 40px;
+  padding-bottom: 40px;
 }
 
 .card {
@@ -82,25 +106,29 @@ select {
   border: 1px solid #c4cfd6;
   padding: 20px;
   margin: 10px;
-  color: #c4cfd6;
+  color: #1a323e;
   -webkit-transition: all 0.5s;
   transition: all 0.5s;
   border-radius: 20px;
+  overflow: hidden;
+  position: relative;
 }
 
 .card:hover {
   background-color: rgba(196, 207, 214, 0.1);
   border: 1px solid rgba(196, 207, 214, 0.1);
-  color: rgba(0, 0, 0, 0.4);
   -webkit-box-shadow: 3px 1px 10px 0px #c4cfd6;
           box-shadow: 3px 1px 10px 0px #c4cfd6;
   cursor: pointer;
 }
 
-.card:hover span {
-  -webkit-transition: all 0.5s;
-  transition: all 0.5s;
-  color: rgba(0, 0, 0, 0.8);
+.card:hover .card-info {
+  bottom: 0;
+  background-color: rgba(196, 207, 214, 0.6);
+}
+
+.card:hover .card-name {
+  opacity: 0;
 }
 
 .card:hover .card-img img {
@@ -109,13 +137,17 @@ select {
   border-radius: 10px;
 }
 
+.card:hover img {
+  opacity: 0.4;
+}
+
 .card-img {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   width: 280px;
   margin: 0 auto;
-  margin-bottom: 15px;
+  position: relative;
 }
 
 .card-img img {
@@ -127,10 +159,32 @@ select {
      object-fit: cover;
 }
 
+.card-img .card-name {
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+  position: absolute;
+  bottom: 30px;
+  width: 100%;
+  text-align: center;
+  font-size: 30px;
+  color: #fff;
+}
+
 .card p span {
   -webkit-transition: all 0.5s;
   transition: all 0.5s;
   color: black;
+}
+
+.card-info {
+  position: absolute;
+  bottom: -100%;
+  height: 100%;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
 }
 
 @media (max-width: 1160px) {
@@ -140,9 +194,6 @@ select {
   .search {
     width: 100%;
     margin-top: 10px;
-  }
-  .content {
-    padding-top: 40px;
   }
 }
 

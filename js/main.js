@@ -14,19 +14,7 @@ const getData = async url => {
 };
 
 const createCard = data => {
-    const {
-        name,
-        realName,
-        species,
-        citizenship,
-        actors,
-        gender,
-        movies,
-        birthDay,
-        deathDay,
-        status,
-        photo
-    } = data;
+    const { name, realName, species, citizenship, actors, gender, movies, birthDay, deathDay, status, photo } = data;
 
     const card = document.createElement('div');
     card.classList.add('card');
@@ -34,6 +22,7 @@ const createCard = data => {
     card.innerHTML = `
         <div class="card-img">
             <img src="../DB/${photo}" alt="${name}">
+            <p class="card-name">${name}</p>
         </div>
         <div class="card-info">
             <p>name: <span>${name}</span></p>
@@ -46,8 +35,7 @@ const createCard = data => {
             ${ birthDay ? `<p>birthDay: <span>${birthDay}</span></p>` : '' }
             ${ deathDay ? `<p>deathDay: <span>${deathDay}</span></p>` : '' }
             <p>status: <span>${status}</span></p>
-        </div>
-        `;
+        </div>`;
 
     return card;
 };
@@ -144,9 +132,7 @@ const sortCards = filter => {
                 let arr = data.filter(item => item[filter]);
 
                 if (filter !== 'birthDay' && filter !== 'deathDay' && filter !== 'movies') {
-
                     arr.sort((a, b) => {
-
                         if (b[filter].toLowerCase() > a[filter].toLowerCase()) {
                             return -1;
                         }
@@ -154,23 +140,16 @@ const sortCards = filter => {
                             return 1;
                         }
                         return 0;
-
                     });
-
                     return arr;
                 }
 
                 if (filter === 'birthDay' || filter === 'deathDay') {
-
                     arr.sort((a, b) => new Date(a[filter]).getFullYear() - new Date(b[filter]).getFullYear());
-
                     return arr;
-
                 }
 
                 if (filter === 'movies') {
-                    console.log('movies');
-
                     arr.sort((a, b) => b[filter].length - a[filter].length);
                     return arr;
                 }
